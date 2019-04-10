@@ -43,6 +43,26 @@
   </div>
   <script src="/node_modules/jquery/dist/jquery.js"></script>
   <script>
+    $('#email').blur((e) => {
+      
+      e.preventDefault()
+      let formData = {
+        email: e.target.value
+      }
+      $.ajax({
+        url: '/emailValidate',
+        type: 'post',
+        data: formData,
+        dataType: 'json',
+        success: (data) => {
+          let err_code = data.err_code
+          console.log(data)
+          window.alert(data.message)
+          
+        }
+      })
+    })
+
     $('#register_form').on('submit', function (e) {
       e.preventDefault()
       var formData = $(this).serialize()
@@ -52,10 +72,8 @@
         data: formData,
         dataType: 'json',
         success: (data) => {
-          console.log(data)
-        },
-        error: (err) =>{
-          console.log(err)
+          let err_code = data.err_code
+          window.alert(data.message)
         }
       })
     })
