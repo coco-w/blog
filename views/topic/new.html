@@ -6,23 +6,23 @@
 <section class="container">
   <div class="row">
     <div class="col-md-5">
-      <form>
+      <form method="POST" action="/topics/new">
         <div class="form-group">
           <label for="exampleInputEmail1">选择板块</label>
-          <select class="form-control">
-            <option>分享</option>
-            <option>问答</option>
-            <option>招聘</option>
-            <option>客户端测试</option>
+          <select class="form-control" name="label">
+            <option value="1">分享</optionv>
+            <option value="2">问答</option>
+            <option value="3">招聘</option>
+            <option value="4">客户端测试</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="exampleInputEmail1">标题</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+          <label for="">标题</label>
+          <input type="text" class="form-control" id="" placeholder="Email" name="title">
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">内容</label>
-          <textarea class="form-control" rows="3"></textarea>
+          <textarea class="form-control" rows="3" name="content"></textarea>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
