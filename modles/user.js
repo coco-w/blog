@@ -45,6 +45,10 @@ const userSchema = mongoose.Schema({
     },
     birthday: {
         type: Date
+    },
+    pic: {
+        type: String,
+        default: '/public/img/avatar-default.png'
     }
 })
 

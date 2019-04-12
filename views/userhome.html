@@ -1,0 +1,53 @@
+
+ {{extend './_layouts/home.html'}}
+{{block 'title'}}{{user.nickname}}的主页 {{/block}}
+
+{{block 'head'}}
+<style>
+        .main{
+            border: 1px solid #aaa;
+            padding-top: 20px;
+        }
+        h3{
+            height: 25px;
+            width: 90%;
+            background: #eaeef0;
+            border: 1px solid #bcc4cb
+        }
+    </style>
+{{/block}}
+
+{{block 'body'}}
+<section class="col-md-8 col-md-offset-1">
+    <div class="container">
+        <h1>{{user.nickname}}的主页</h1>
+        <div class="row main">
+            <div class="col-md-3 text-center">
+                <img src="./public/img/avatar-default.png" alt="" class="img-thumbnail">
+            </div>
+            <div class="col-md-9">
+                <h3>{{user.nickname}}</h3>
+                {{if user.gender === -1}}
+                
+                <p>性别：保密</p>
+                {{else if user.gender === 0}}
+                
+                <p>性别：男</p>
+                {{else if user.gender === 1}}
+                
+                <p>性别：女</p>
+                {{/if}}
+                
+                {{if user.bio == ''}}
+                <p>个人介绍：什么都没有留下</p>
+                
+                {{else}}
+                <p>个人介绍：{{user.bio}} </p>
+                {{/if}}
+            
+            </div>  
+        </div>
+    </div>
+</section>
+
+{{/block}}

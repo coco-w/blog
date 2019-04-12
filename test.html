@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        .main {
+            border: 1px solid #aaa;
+            padding-top: 20px;
+        }
+        .radio{
+            display: inline-block
+        }
+
+    </style>
+</head>
+
+<body>
+    <section class="col-md-8 col-md-offset-1">
+        <div class="container">
+            <h1>xxx的主页</h1>
+            <div class="row main">
+                <div class="col-md-3 text-center">
+                    <img src="./public/img/avatar-default.png" alt="" class="img-thumbnail">
+                    <p><a href="#">修改头像</a> </p>
+                </div>
+                <div class="col-md-9">
+                    <form>
+                        <div class="form-group">
+                            <label for="">昵称</label>
+                            <input type="text" class="form-control" id="" placeholder="Email">
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" checked>
+                                男
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="1">
+                                女
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="-1">
+                                保密
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                                <label for="">个人介绍</label>
+                                <textarea class="form-control" rows="3" > 12312</textarea>
+                            </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>

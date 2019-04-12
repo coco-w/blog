@@ -57,8 +57,9 @@
         success: (data) => {
           let err_code = data.err_code
           console.log(data)
-          window.alert(data.message)
-          
+          let message = $('<p></p>').text(data.message)
+          $('.form-group p').remove()
+          $('.form-group').eq(0).append(message)
         }
       })
     })
@@ -73,7 +74,12 @@
         dataType: 'json',
         success: (data) => {
           let err_code = data.err_code
-          window.alert(data.message)
+          if(err_code === 2) {
+            window.location.href = '/'
+          }
+          if(err_code === 1) {
+            window.alert(data.message)
+          }
         }
       })
     })
