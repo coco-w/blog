@@ -1,105 +1,142 @@
+{{extend './_layouts/home.html'}}
 
- {{extend './_layouts/home.html'}}
- {{block 'title'}}{{user.nickname}}的设置 {{/block}}
- 
- {{block 'head'}}
- <style>
-         .main{
-             border: 1px solid #aaa;
-             padding-top: 20px;
-         }
-        .radio{
-            display: inline-block
-        }
 
-     </style>
- {{/block}}
- 
- {{block 'body'}}
- 
-     <div class="container">
-         <h1>xxx的主页</h1>
-         <div class="row main">
-             <div class="col-md-3 text-center">
-                 <img src={{user.pic}} alt="" class="img-thumbnail">
-                 <p><a href="#">修改头像</a> </p>
-             </div>
-             <div class="col-md-9">
-                 <form method="POST" action="/settings">
-                    <input type="hidden" name="id" value={{user._id}}>
-                     <div class="form-group" >
-                         <label for="">昵称</label>
-                         <input type="text" class="form-control" id="" placeholder="Email" name="nickname" value={{user.nickname}}>
-                     </div>
-                     {{if user.gender === -1}}
-                     <div class="radio">
-                            <label>
-                                <input type="radio" name="gender"  value="0" >
-                                男
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="gender"  value="1">
-                                女
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="gender"  value="-1" checked>
-                                保密
-                            </label>
-                        </div>
-                     {{else if user.gender === 0}}
-                     <div class="radio">
-                            <label>
-                                <input type="radio" name="gender"  value="0" checked>
-                                男
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="gender"  value="1">
-                                女
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="gender"  value="-1" >
-                                保密
-                            </label>
-                        </div>
-                     {{else if user.gender === 1}}
-                     <div class="radio">
-                            <label>
-                                <input type="radio" name="gender"  value="0" >
-                                男
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="gender"  value="1"checked>
-                                女
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="gender"  value="-1" >
-                                保密
-                            </label>
-                        </div>
-                     {{/if}}
-                     
-                     <div class="form-group">
-                             <label for="">个人介绍</label>
-                             <textarea class="form-control" rows="3" name="bio"> {{user.bio}}</textarea>
-                         </div>
-                     <button type="submit" class="btn btn-default">Submit</button>
-                 </form>
+{{block 'title'}}{{ user.nickname}}的设置 {{/block}}
 
-             </div>
-         </div>
-     </div>
- 
- 
- {{/block}}
+{{block 'head'}}
+<style>
+    .main {
+        border: 1px solid #aaa;
+        padding-top: 20px;
+    }
+
+    .radio {
+        display: inline-block
+    }
+
+    .inputfile {
+        /* visibility: hidden etc. wont work */
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+</style>
+
+</style>
+{{/block}}
+
+{{block 'body'}}
+
+<div class="container">
+    <h1>{{user.nickname}}的主页</h1>
+    <div class="row main">
+        <div class="col-md-3 text-center">
+            <img src={{user.pic}} alt="" class="img-thumbnail">
+            <p>
+                <form action="/fileupload" enctype="multipart/form-data" method="post">
+                    <input type="file" name="file" id="file" class="inputfile" />
+                    <label for="file" id="label">Choose a file (Click me)</label>
+                </form>
+            </p>
+        </div>
+        <div class="col-md-9">
+            <form method="POST" action="/settings">
+                <input type="hidden" name="id" value={{user._id}}>
+                <div class="form-group">
+                    <label for="">昵称</label>
+                    <input type="text" class="form-control" id="" placeholder="Email" name="nickname"
+                        value={{user.nickname}}>
+                </div>
+                {{if user.gender === -1}}
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="gender" value="0">
+                        男
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="gender" value="1">
+                        女
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="gender" value="-1" checked>
+                        保密
+                    </label>
+                </div>
+                {{else if user.gender === 0}}
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="gender" value="0" checked>
+                        男
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="gender" value="1">
+                        女
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="gender" value="-1">
+                        保密
+                    </label>
+                </div>
+                {{else if user.gender === 1}}
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="gender" value="0">
+                        男
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="gender" value="1" checked>
+                        女
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="gender" value="-1">
+                        保密
+                    </label>
+                </div>
+                {{/if}}
+
+                <div class="form-group">
+                    <label for="">个人介绍</label>
+                    <textarea class="form-control" rows="3" name="bio"> {{user.bio}}</textarea>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+{{/block}}
+
+{{block 'script'}}
+<script src='/node_modules//jquery/dist/jquery.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" ></script>
+<script>    
+    var $input = $('#file');
+            var $label = $('#label');
+            $input.change(function(){
+               $input.parent().ajaxSubmit({
+                success:function(){
+                $label.removeClass('uploading');
+                console.log('123')
+            },
+            clearData: true,
+               })
+            })
+</script>
+{{/block}}

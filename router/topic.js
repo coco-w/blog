@@ -33,15 +33,19 @@ router.get('/topics',async (req, res) => {
             author: author.nickname,
         })
     } else {
-        let comment = await Comment.findById(query.comment.replace(/"/g, ''))
+        let comments = await Comment.findById(query.comment.replace(/"/g, ''))
+        let data = JSON.stringify(comments.comments)
+        data = JSON.parse(data)
+        // console.log(arr)
         // comment = Array(comment)
         // console.log(comment)
         // console.log(comment.comments, typeof  comment.comments)
+
         res.render('../views/topic/show.html',{
             user: req.session.user,
             topic: query,
             author: author.nickname,
-            // comment: comment.comments    
+            comment: data
         })
     }
     
@@ -62,23 +66,31 @@ router.get('/push',async (req, res) => {
     comment.pic = req.session.user.pic
     comment.nickname = req.session.user.nickname
     comment.create_time = Date.now()
+    let user = await User.findById(req.session.user._id.replace(/"/g, ''))
     let topic =await Topic.findById(req.query.id.replace(/"/g, ''))
     if (topic.comment === 'kong'){
-
         let a =await new Comment().save()
         console.log(a)
         await a.comments.push(comment)
         await a.save()
         topic.comment = a._id
+        user.comments.push(a._id)
+        await user.save()
         await topic.save()
     }else {
         let comments = await Comment.findById(topic.comment.replace(/"/g, ''))
+        console.log(user)
+        console.log(comments)
         await comments.comments.push(comment)
         await comments.save()
+        if (user.comments.indexOf(comments.id) === -1) {
+            user.comments.push(comments._id)
+        }
+        await user.save()
     }
     // let data = await new Comment(comment).save()
     // console.log(comment)
-    // let topic = await Topic.findByIdAndUpdate(req.query.id.replace(/"/g, ''),{
+    // await Topic.findByIdAndUpdate(req.query.id.replace(/"/g, ''),{
     //     comment: {$push : {arr : data._id}}
     // }, {new:true})
     

@@ -1,7 +1,10 @@
 const express = require('express')
 const User = require('../modles/user')
 const Topic = require('../modles/topic')
+const Comment = require('../modles/comment').model
 const md5 = require('blueimp-md5')
+const path = require('path')
+
 const router = express.Router()
 
 
@@ -198,5 +201,67 @@ router.post('/settings', (req, res) => {
     })
 
 })
+
+router.post('/fileupload',async (req, res) => {
+    // console.log(req.session.user)
+    try {
+        let file = req.files.file
+        if (file.mimetype !== 'image/jpeg'){
+            console.log('tpye error')
+            return res.end('tpye error')
+        }
+        let name = md5(Date.now())+'.jpg'
+        await file.mv(path.join(path.resolve(__dirname, '..'), '/public/img', name))
+        let id = req.session.user._id.replace(/"/g,'')
+        User.findById(id).then((doc) => {
+                doc.pic = '/public/img/' + name
+                // console.log(req.session.user)
+                req.session.user = null
+                req.session.user = doc
+                req.session.save()
+                doc.save()  
+                return Topic.find({author: doc.id})
+            }
+        ).then(doc => {
+            doc.forEach((ele) => {
+                ele.pic = '/public/img/' + name
+                ele.save()
+            })
+            // return [doc[1].comments, doc[1].pic]
+        }).then(() => {
+            upUserData(id, {pic: '/public/img/' + name})
+        })
+        return res.redirect('settings/profile')
+
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
+const upUserData = (id, updata) => {
+    User.findById(id)
+    .then(doc => {
+        // console.log(doc)
+        doc.comments.forEach(ele => {
+            Comment.findById(ele)
+            .then(comment => {
+                // console.log(comment)
+                comment.comments.forEach(v => {
+                    console.log(v)
+                    for (var key in updata) {
+                        if (v.author == id) {
+                            v[key] = updata[key]
+                        }
+                        
+            
+                    }
+                })
+                comment.save()
+            })
+        })
+    })
+}
+
 
 module.exports = router

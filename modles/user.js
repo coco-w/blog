@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 mongoose.connect('mongodb://localhost/blog', {useNewUrlParser: true})
-
+let ObjectId = mongoose.Schema.Types.ObjectId;
 const userSchema = mongoose.Schema({
     email: {
         type: String,
@@ -49,7 +49,10 @@ const userSchema = mongoose.Schema({
     pic: {
         type: String,
         default: '/public/img/avatar-default.png'
-    }
+    },
+    comments:[
+        {type: ObjectId}
+    ]
 })
 
 module.exports = mongoose.model('User', userSchema)

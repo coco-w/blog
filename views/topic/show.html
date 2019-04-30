@@ -4,77 +4,75 @@
 
 {{block 'head'}}
 <style>
+  .main {
+    border: 1px solid #000000;
+    border-top: none;
+    padding-top: 20px;
+  }
 
-    .main {
-        border: 1px solid #000000;
-        border-top: none;
-        padding-top: 20px;
-    }
-    .border {
-      border: 1px solid #000
-    }
-    
-    .radio {
-        display: inline-block
-    }
+  .border {
+    border: 1px solid #000
+  }
+
+  .radio {
+    display: inline-block
+  }
 </style>
 {{/block}}
 
 {{block 'body'}}
 <div id="comment">
-  
-<section class="col-md-8 col-md-offset-1">
+  <section class="col-md-8 col-md-offset-1">
     <div class="container">
-        <h1>{{topic.title}}</h1>
-        <p>发布于 {{topic.create_time}}</p>
-        <div class="row main border">
-                <div class="col-md-3 col-xs-3 text-center">
-                    <img src= {{topic.pic}} alt="">
-                    <div>
-                        <p>{{author}}</p>
-                    </div>
-                </div>
-                <div class="col-md-9 col-xs-9">
-                    <p>{{topic.content}}</p>
-                </div>
+      <h1>{{topic.title}}</h1>
+      <p>发布于 {{topic.create_time}}</p>
+      <div class="row main border">
+        <div class="col-md-3 col-xs-3 text-center">
+          <img src={{topic.pic}} alt="" style="width:100xp;height: 100px">
+          <div>
+            <p>{{author}}</p>
+          </div>
         </div>
+        <div class="col-md-9 col-xs-9">
+          <p>{{topic.content}}</p>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
   {{each comment}}
-  
-<section class="col-md-8 col-md-offset-1">
+
+  <section class="col-md-8 col-md-offset-1">
 
     <div class="container">
-            <div class="row main">
-                    <div class="col-md-3 col-xs-3 text-center">
-                            <img src={{$value.pic}} alt="">
-                            <div>
-                                <p>{{$value.nickname}}</p>
-                            </div>
-                        </div>
-                        <div class="col-md-9 col-xs-9">
-                            <p>{{$value.content}}</p>
-                        </div>
-            </div>
+      <div class="row main">
+        <div class="col-md-3 col-xs-3 text-center">
+          <img src={{$value.pic}} style="width:100xp;height: 100px">
+          <div>
+            <p>{{$value.nickname}}</p>
+          </div>
         </div>
-</section>
+        <div class="col-md-9 col-xs-9">
+          <p>{{$value.content}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
   {{/each}}
 </div>
-
+</div>
 
 <section class="col-md-8 col-md-offset-1">
 
-    <div class="container jumbotron">
-            <form id="comment_form"> 
-              <input type="hidden" name="id" value={{topic._id}}>
-                    <div class="form-group">
-                      <label name="commit">发布评论</label>
-                      <textarea name="content" class='form-control' rows="5"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form>
-        </div>
+  <div class="container jumbotron">
+    <form id="comment_form">
+      <input type="hidden" name="id" value={{topic._id}}>
+      <div class="form-group">
+        <label name="commit">发布评论</label>
+        <textarea name="content" class='form-control' rows="5"></textarea>
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
 </section>
 
 
@@ -82,33 +80,33 @@
 
 
 {{block 'script'}}
-  <script>
-    // $('commetn_form').submit(e => {
-    //   e.preventDefault()
-    //   console.log($(this).serialize())
-    //   let formData = $(this).serialize()
-    // })
-    $('#comment_form').on('submit', e => {
-      e.preventDefault()
-      // console.log($('#comment_form').serialize())
-      let formData = $('#comment_form').serialize()
+<script>
+  // $('commetn_form').submit(e => {
+  //   e.preventDefault()
+  //   console.log($(this).serialize())
+  //   let formData = $(this).serialize()
+  // })
+  $('#comment_form').on('submit', e => {
+    e.preventDefault()
+    // console.log($('#comment_form').serialize())
+    let formData = $('#comment_form').serialize()
 
-      $.ajax({
-        url: '/push',
-        type: 'get',
-        data: formData,
-        dataType: 'json',
-        success: (data) => {
-          if (data.err_code === 1) {
-            window.location.href = '/login'
-          }
-          let dom = $('<section class = "col-md-8 col-md-offset-1"></section>').html(`
+    $.ajax({
+      url: '/push',
+      type: 'get',
+      data: formData,
+      dataType: 'json',
+      success: (data) => {
+        if (data.err_code === 1) {
+          window.location.href = '/login'
+        }
+        let dom = $('<section class = "col-md-8 col-md-offset-1"></section>').html(`
           <div class="container">
             <div class="row main">
                     <div class="col-md-3 col-xs-3 text-center">
-                            <img src=${data.pic} alt="">
+                            <img src=${data.pic} alt=""style="width:100px;height:100px" >
                             <div>
-                                <p>${data.author}</p>
+                                <p>${data.nickname}</p>
                             </div>
                         </div>
                         <div class="col-md-9 col-xs-9">
@@ -117,12 +115,12 @@
             </div>
         </div>
           `)
-          $('#comment').append(dom)
+        $('#comment').append(dom)
 
-        }
+      }
 
-      })
-      // console.log(formData)
     })
-  </script>
+    // console.log(formData)
+  })
+</script>
 {{/block}}
